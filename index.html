@@ -16,6 +16,10 @@
       --page-muted: #9ca3af;
       --card-bg: #111111;
       --card-border: rgba(255,255,255,0.06);
+      --accent: #3b82f6;
+      --accent-secondary: #2563eb;
+      --hero-gradient: linear-gradient(135deg, #3b82f6, #8b5cf6, #ec4899);
+      --nav-highlight: #fff;
     }
 
     body {
@@ -24,6 +28,7 @@
       color: var(--page-text);
       line-height: 1.6;
       -webkit-font-smoothing: antialiased;
+      transition: background-color 0.5s ease, color 0.4s ease;
     }
 
     /* Hero */
@@ -38,7 +43,7 @@
       font-weight: 700;
       letter-spacing: -0.02em;
       margin-bottom: 16px;
-      background: linear-gradient(135deg, #3b82f6, #8b5cf6, #ec4899);
+      background: var(--hero-gradient);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
@@ -71,8 +76,9 @@
       transition: all 0.2s ease;
       color: #fff;
     }
+    .theme-nav button { transition: all 0.2s ease; }
     .theme-nav button:hover { transform: translateY(-1px); filter: brightness(1.15); }
-    .theme-nav button.active { box-shadow: 0 0 0 2px #fff, 0 4px 12px rgba(0,0,0,0.3); }
+    .theme-nav button.active { box-shadow: 0 0 0 2px var(--nav-highlight), 0 4px 12px rgba(0,0,0,0.3); }
     .theme-nav button[data-theme="professional"] { background: #2B7FFF; }
     .theme-nav button[data-theme="zen"] { background: #5a7a5a; }
     .theme-nav button[data-theme="cozy"] { background: #d9a574; color: #251d19; }
@@ -122,12 +128,13 @@
       border: 1px solid var(--card-border);
       border-radius: 16px;
       padding: 24px;
+      transition: background-color 0.5s ease, border-color 0.5s ease;
     }
     .card h3 {
       font-size: 20px;
       font-weight: 600;
       margin-bottom: 16px;
-      color: #fff;
+      color: var(--page-text);
     }
     .card h4 {
       font-size: 14px;
@@ -149,6 +156,7 @@
       border-bottom: 1px solid rgba(255,255,255,0.04);
     }
     .color-row:last-child { border-bottom: none; }
+    .color-row { transition: border-color 0.5s ease; }
     .color-swatch {
       width: 36px;
       height: 36px;
@@ -175,7 +183,7 @@
       margin-bottom: 4px;
     }
     .type-preview {
-      color: #fff;
+      color: var(--page-text);
     }
 
     /* Component previews */
@@ -252,22 +260,23 @@
     .specs-list { list-style: none; }
     .specs-list li {
       font-size: 14px;
-      color: #d1d5db;
+      color: var(--page-muted);
       padding: 6px 0;
-      border-bottom: 1px solid rgba(255,255,255,0.04);
+      border-bottom: 1px solid var(--card-border);
     }
     .specs-list li:last-child { border-bottom: none; }
 
     /* Guidelines */
     .guideline-box {
-      background: rgba(255,255,255,0.03);
+      background: var(--card-bg);
       border-radius: 12px;
       padding: 20px;
       margin-top: 12px;
+      transition: background-color 0.5s ease;
     }
     .guideline-box p {
       font-size: 14px;
-      color: #d1d5db;
+      color: var(--page-muted);
       line-height: 1.6;
     }
 
@@ -305,6 +314,8 @@
       margin-bottom: 24px;
       padding-bottom: 12px;
       border-bottom: 1px solid var(--card-border);
+      color: var(--page-text);
+      transition: color 0.4s ease, border-color 0.5s ease;
     }
 
     /* Footer */
@@ -314,7 +325,9 @@
       color: var(--page-muted);
       font-size: 13px;
       border-top: 1px solid var(--card-border);
+      transition: color 0.4s ease, border-color 0.5s ease;
     }
+
   </style>
 </head>
 <body>
@@ -1194,10 +1207,103 @@
   </footer>
 
   <script>
+    // Theme color schemes
+    const themeColors = {
+      professional: {
+        '--page-bg': '#0a0a0a',
+        '--page-text': '#ffffff',
+        '--page-muted': '#9ca3af',
+        '--card-bg': '#111111',
+        '--card-border': 'rgba(255,255,255,0.06)',
+        '--accent': '#3b82f6',
+        '--hero-gradient': 'linear-gradient(135deg, #3b82f6, #2563eb, #155dfc)',
+        '--nav-highlight': '#fff'
+      },
+      zen: {
+        '--page-bg': '#e8ede2',
+        '--page-text': '#3a5a3a',
+        '--page-muted': '#5a6a5a',
+        '--card-bg': '#d4dcc8',
+        '--card-border': '#c0cabc',
+        '--accent': '#5a7a5a',
+        '--hero-gradient': 'linear-gradient(135deg, #5a7a5a, #7a9a7a, #a8c4a8)',
+        '--nav-highlight': '#3a5a3a'
+      },
+      cozy: {
+        '--page-bg': '#1e1612',
+        '--page-text': '#f5e6d3',
+        '--page-muted': '#d9c4b0',
+        '--card-bg': '#2d231d',
+        '--card-border': 'rgba(217,165,116,0.15)',
+        '--accent': '#d9a574',
+        '--hero-gradient': 'linear-gradient(135deg, #e8a87c, #d4956a, #d9a574)',
+        '--nav-highlight': '#f5e6d3'
+      },
+      trust: {
+        '--page-bg': '#0c1b2e',
+        '--page-text': '#e0e8f0',
+        '--page-muted': '#7a8fa8',
+        '--card-bg': '#132840',
+        '--card-border': 'rgba(255,255,255,0.08)',
+        '--accent': '#1e3a5f',
+        '--hero-gradient': 'linear-gradient(135deg, #1e3a5f, #2a5580, #3b82b8)',
+        '--nav-highlight': '#e0e8f0'
+      },
+      fun: {
+        '--page-bg': '#1a1033',
+        '--page-text': '#f0e6ff',
+        '--page-muted': '#b8a8d4',
+        '--card-bg': '#221544',
+        '--card-border': 'rgba(102,126,234,0.2)',
+        '--accent': '#667eea',
+        '--hero-gradient': 'linear-gradient(135deg, #667eea, #764ba2, #f093fb)',
+        '--nav-highlight': '#f0e6ff'
+      },
+      friendly: {
+        '--page-bg': '#f0faf5',
+        '--page-text': '#2d3748',
+        '--page-muted': '#5a6b7a',
+        '--card-bg': '#e0f5ea',
+        '--card-border': 'rgba(45,55,72,0.1)',
+        '--accent': '#48bb78',
+        '--hero-gradient': 'linear-gradient(135deg, #84fab0, #8fd3f4, #48bb78)',
+        '--nav-highlight': '#2d3748'
+      },
+      bold: {
+        '--page-bg': '#0a0a0a',
+        '--page-text': '#ffffff',
+        '--page-muted': '#a0a0a0',
+        '--card-bg': '#141414',
+        '--card-border': 'rgba(255,51,102,0.15)',
+        '--accent': '#ff3366',
+        '--hero-gradient': 'linear-gradient(135deg, #ff3366, #ff6b6b, #ff3366)',
+        '--nav-highlight': '#fff'
+      },
+      elegant: {
+        '--page-bg': '#1a1510',
+        '--page-text': '#f0e8d8',
+        '--page-muted': '#a09078',
+        '--card-bg': '#241e16',
+        '--card-border': 'rgba(201,168,108,0.15)',
+        '--accent': '#c9a86c',
+        '--hero-gradient': 'linear-gradient(135deg, #c9a86c, #a08050, #c9a86c)',
+        '--nav-highlight': '#f0e8d8'
+      }
+    };
+
     // Theme navigation
     const nav = document.getElementById('themeNav');
     const buttons = nav.querySelectorAll('button');
     const sections = document.querySelectorAll('.theme-section');
+    const root = document.documentElement;
+
+    function applyThemeColors(theme) {
+      const colors = themeColors[theme];
+      if (!colors) return;
+      Object.entries(colors).forEach(([prop, value]) => {
+        root.style.setProperty(prop, value);
+      });
+    }
 
     buttons.forEach(btn => {
       btn.addEventListener('click', () => {
@@ -1206,6 +1312,7 @@
         btn.classList.add('active');
         sections.forEach(s => s.classList.remove('active'));
         document.getElementById(theme).classList.add('active');
+        applyThemeColors(theme);
         window.scrollTo({ top: 0, behavior: 'smooth' });
       });
     });
