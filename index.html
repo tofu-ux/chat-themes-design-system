@@ -10,6 +10,25 @@
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
+    /* Skip to content link */
+    .skip-link {
+      position: absolute;
+      top: -40px;
+      left: 0;
+      background: var(--accent, #3b82f6);
+      color: #fff;
+      padding: 8px 16px;
+      z-index: 100;
+      font-size: 14px;
+      font-weight: 600;
+      text-decoration: none;
+      border-radius: 0 0 8px 0;
+      transition: top 0.2s;
+    }
+    .skip-link:focus {
+      top: 0;
+    }
+
     :root {
       --page-bg: #0a0a0a;
       --page-text: #ffffff;
@@ -328,17 +347,41 @@
       transition: color 0.4s ease, border-color 0.5s ease;
     }
 
+    /* Focus styles for accessibility */
+    *:focus-visible {
+      outline: 2px solid var(--accent, #3b82f6);
+      outline-offset: 2px;
+    }
+    .theme-nav button:focus-visible {
+      outline: 2px solid var(--nav-highlight, #fff);
+      outline-offset: 2px;
+    }
+    .chat-input:focus-visible {
+      outline: 2px solid var(--accent, #3b82f6);
+      outline-offset: -2px;
+    }
+
+    /* Reduced motion */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        transition-duration: 0.01ms !important;
+        animation-duration: 0.01ms !important;
+      }
+    }
+
   </style>
 </head>
 <body>
+
+  <a href="#main-content" class="skip-link">Skip to content</a>
 
   <header class="hero">
     <h1>Chat Themes Design System</h1>
     <p>Complete design tokens and component library for chat interfaces. 8 unique themes with full color palettes, typography, and components.</p>
   </header>
 
-  <nav class="theme-nav" id="themeNav">
-    <button data-theme="professional" class="active">💼 Professional</button>
+  <nav class="theme-nav" id="themeNav" aria-label="Theme selector">
+    <button data-theme="professional" class="active" aria-current="true">💼 Professional</button>
     <button data-theme="zen">🧘 Zen</button>
     <button data-theme="cozy">🧸 Cozy</button>
     <button data-theme="trust">🛡️ Trust</button>
@@ -349,7 +392,8 @@
   </nav>
 
   <!-- ==================== PROFESSIONAL ==================== -->
-  <section class="theme-section active" id="professional">
+  <main id="main-content">
+  <section class="theme-section active" id="professional" aria-label="Professional Theme">
     <div class="theme-header">
       <h2>💼 Professional Theme</h2>
       <p>Clean, corporate aesthetic with blue accents. Ideal for business applications and professional contexts.</p>
@@ -369,8 +413,8 @@
         <div class="chat-bubble assistant" style="background: #2a2a2a; color: #f3f4f6; font-family: 'IBM Plex Sans', sans-serif;">Of course! I'm here to help. What would you like to know?</div>
       </div>
       <div class="chat-input-area" style="background: #1a1a1a;">
-        <input class="chat-input" style="background: rgba(255,255,255,0.04); border-color: rgba(255,255,255,0.08); color: #fff; font-family: 'IBM Plex Sans', sans-serif;" placeholder="Type your message..." disabled>
-        <button class="chat-send" style="background: #155dfc; color: #fff;">↑</button>
+        <input class="chat-input" style="background: rgba(255,255,255,0.04); border-color: rgba(255,255,255,0.08); color: #fff; font-family: 'IBM Plex Sans', sans-serif;" placeholder="Type your message..." disabled aria-label="Message input (demo)">
+        <button class="chat-send" aria-label="Send message (demo)" style="background: #155dfc; color: #fff;">↑</button>
       </div>
     </div>
 
@@ -464,13 +508,13 @@
     </div>
 
     <div class="full-preview" style="margin-top: 48px;">
-      <button class="preview-toggle" onclick="this.nextElementSibling.style.display = this.nextElementSibling.style.display === 'none' ? 'block' : 'none'">Toggle Full Figma Preview</button>
+      <button class="preview-toggle" aria-expanded="false" onclick="var expanded = this.nextElementSibling.style.display !== 'none'; this.nextElementSibling.style.display = expanded ? 'none' : 'block'; this.setAttribute('aria-expanded', !expanded);">Toggle Full Figma Preview</button>
       <div style="display: none;"><img src="images/professional.png" alt="Professional theme full preview" loading="lazy"></div>
     </div>
   </section>
 
   <!-- ==================== ZEN ==================== -->
-  <section class="theme-section" id="zen">
+  <section class="theme-section" id="zen" aria-label="Zen Theme">
     <div class="theme-header">
       <h2>🧘 Zen Theme</h2>
       <p>Calming natural tones for a peaceful, mindful experience. Perfect for wellness and meditation platforms.</p>
@@ -489,8 +533,8 @@
         <div class="chat-bubble assistant" style="background: #7a9a7a; color: #eef2e8; font-family: 'EB Garamond', serif;">Of course! I'm here to help. What would you like to know?</div>
       </div>
       <div class="chat-input-area" style="background: #d4dcc8;">
-        <input class="chat-input" style="background: transparent; border-color: transparent; color: #5a7a5a; font-family: 'EB Garamond', serif;" placeholder="Type your message..." disabled>
-        <button class="chat-send" style="background: #5a7a5a; color: #d4dcc8; border-radius: 50%;">↑</button>
+        <input class="chat-input" style="background: transparent; border-color: transparent; color: #5a7a5a; font-family: 'EB Garamond', serif;" placeholder="Type your message..." disabled aria-label="Message input (demo)">
+        <button class="chat-send" aria-label="Send message (demo)" style="background: #5a7a5a; color: #d4dcc8; border-radius: 50%;">↑</button>
       </div>
     </div>
 
@@ -576,13 +620,13 @@
     </div>
 
     <div class="full-preview" style="margin-top: 48px;">
-      <button class="preview-toggle" onclick="this.nextElementSibling.style.display = this.nextElementSibling.style.display === 'none' ? 'block' : 'none'">Toggle Full Figma Preview</button>
+      <button class="preview-toggle" aria-expanded="false" onclick="var expanded = this.nextElementSibling.style.display !== 'none'; this.nextElementSibling.style.display = expanded ? 'none' : 'block'; this.setAttribute('aria-expanded', !expanded);">Toggle Full Figma Preview</button>
       <div style="display: none;"><img src="images/zen.png" alt="Zen theme full preview" loading="lazy"></div>
     </div>
   </section>
 
   <!-- ==================== COZY ==================== -->
-  <section class="theme-section" id="cozy">
+  <section class="theme-section" id="cozy" aria-label="Cozy Theme">
     <div class="theme-header">
       <h2>🧸 Cozy Theme</h2>
       <p>Warm earthy tones creating an inviting, comfortable atmosphere for casual conversations.</p>
@@ -601,8 +645,8 @@
         <div class="chat-bubble assistant" style="background: #4a3f38; color: #f5ebe0; font-family: 'Baloo 2', cursive; border-radius: 16px 16px 16px 8px;">Of course! I'm here to help. What would you like to know?</div>
       </div>
       <div class="chat-input-area" style="background: #251d19;">
-        <input class="chat-input" style="background: #4a3f38; border-color: transparent; color: #f5e6d3; font-family: 'Baloo 2', cursive; border-radius: 24px;" placeholder="Type your message..." disabled>
-        <button class="chat-send" style="background: #d9a574; color: #251d19; border-radius: 24px;">↑</button>
+        <input class="chat-input" style="background: #4a3f38; border-color: transparent; color: #f5e6d3; font-family: 'Baloo 2', cursive; border-radius: 24px;" placeholder="Type your message..." disabled aria-label="Message input (demo)">
+        <button class="chat-send" aria-label="Send message (demo)" style="background: #d9a574; color: #251d19; border-radius: 24px;">↑</button>
       </div>
     </div>
 
@@ -691,13 +735,13 @@
     </div>
 
     <div class="full-preview" style="margin-top: 48px;">
-      <button class="preview-toggle" onclick="this.nextElementSibling.style.display = this.nextElementSibling.style.display === 'none' ? 'block' : 'none'">Toggle Full Figma Preview</button>
+      <button class="preview-toggle" aria-expanded="false" onclick="var expanded = this.nextElementSibling.style.display !== 'none'; this.nextElementSibling.style.display = expanded ? 'none' : 'block'; this.setAttribute('aria-expanded', !expanded);">Toggle Full Figma Preview</button>
       <div style="display: none;"><img src="images/cozy.png" alt="Cozy theme full preview" loading="lazy"></div>
     </div>
   </section>
 
   <!-- ==================== TRUST ==================== -->
-  <section class="theme-section" id="trust">
+  <section class="theme-section" id="trust" aria-label="Trust Theme">
     <div class="theme-header">
       <h2>🛡️ Trust Theme</h2>
       <p>Secure and professional design with trust indicators and encryption badges.</p>
@@ -716,8 +760,8 @@
         <div class="chat-bubble assistant" style="background: #ffffff; color: #2d3748; font-family: 'Source Sans 3', sans-serif; border: 1px solid #e2e8f0;">Your conversation is protected.</div>
       </div>
       <div class="chat-input-area" style="background: #fafbfc;">
-        <input class="chat-input" style="background: #f5f7fa; border-color: #e2e8f0; color: #2d3748; font-family: 'Source Sans 3', sans-serif;" placeholder="Type your message..." disabled>
-        <button class="chat-send" style="background: #1e3a5f; color: #fff;">↑</button>
+        <input class="chat-input" style="background: #f5f7fa; border-color: #e2e8f0; color: #2d3748; font-family: 'Source Sans 3', sans-serif;" placeholder="Type your message..." disabled aria-label="Message input (demo)">
+        <button class="chat-send" aria-label="Send message (demo)" style="background: #1e3a5f; color: #fff;">↑</button>
       </div>
     </div>
 
@@ -806,13 +850,13 @@
     </div>
 
     <div class="full-preview" style="margin-top: 48px;">
-      <button class="preview-toggle" onclick="this.nextElementSibling.style.display = this.nextElementSibling.style.display === 'none' ? 'block' : 'none'">Toggle Full Figma Preview</button>
+      <button class="preview-toggle" aria-expanded="false" onclick="var expanded = this.nextElementSibling.style.display !== 'none'; this.nextElementSibling.style.display = expanded ? 'none' : 'block'; this.setAttribute('aria-expanded', !expanded);">Toggle Full Figma Preview</button>
       <div style="display: none;"><img src="images/trust.png" alt="Trust theme full preview" loading="lazy"></div>
     </div>
   </section>
 
   <!-- ==================== FUN ==================== -->
-  <section class="theme-section" id="fun">
+  <section class="theme-section" id="fun" aria-label="Fun Theme">
     <div class="theme-header">
       <h2>🎉 Fun Theme</h2>
       <p>Vibrant and playful design with bold gradients and energetic colors.</p>
@@ -831,8 +875,8 @@
         <div class="chat-bubble assistant" style="background: #f8f9ff; color: #2d3748; font-family: 'Nunito', sans-serif; border: 1px solid #f0f0f0;">Just type your message below and I'll respond. Ask me anything!</div>
       </div>
       <div class="chat-input-area" style="background: #ffffff;">
-        <input class="chat-input" style="background: #f8f9ff; border-color: #f0f0f0; color: #2d3748; font-family: 'Nunito', sans-serif;" placeholder="Type your message..." disabled>
-        <button class="chat-send" style="background: #ff6b6b; color: #fff;">↑</button>
+        <input class="chat-input" style="background: #f8f9ff; border-color: #f0f0f0; color: #2d3748; font-family: 'Nunito', sans-serif;" placeholder="Type your message..." disabled aria-label="Message input (demo)">
+        <button class="chat-send" aria-label="Send message (demo)" style="background: #ff6b6b; color: #fff;">↑</button>
       </div>
     </div>
 
@@ -890,13 +934,13 @@
     </div>
 
     <div class="full-preview" style="margin-top: 48px;">
-      <button class="preview-toggle" onclick="this.nextElementSibling.style.display = this.nextElementSibling.style.display === 'none' ? 'block' : 'none'">Toggle Full Figma Preview</button>
+      <button class="preview-toggle" aria-expanded="false" onclick="var expanded = this.nextElementSibling.style.display !== 'none'; this.nextElementSibling.style.display = expanded ? 'none' : 'block'; this.setAttribute('aria-expanded', !expanded);">Toggle Full Figma Preview</button>
       <div style="display: none;"><img src="images/fun.png" alt="Fun theme full preview" loading="lazy"></div>
     </div>
   </section>
 
   <!-- ==================== FRIENDLY ==================== -->
-  <section class="theme-section" id="friendly">
+  <section class="theme-section" id="friendly" aria-label="Friendly Theme">
     <div class="theme-header">
       <h2>😊 Friendly Theme</h2>
       <p>Warm pastel gradients creating an approachable and cheerful atmosphere.</p>
@@ -915,8 +959,8 @@
         <div class="chat-bubble assistant" style="background: #ffffff; color: #4a5568; font-family: 'Poppins', sans-serif; border: 1px solid #e2e8f0;">Of course! I'm here to help. What would you like to know?</div>
       </div>
       <div class="chat-input-area" style="background: #fff8f0;">
-        <input class="chat-input" style="background: #ffffff; border-color: #e2e8f0; color: #2d3748; font-family: 'Poppins', sans-serif;" placeholder="Type your message..." disabled>
-        <button class="chat-send" style="background: #84fab0; color: #2d3748;">↑</button>
+        <input class="chat-input" style="background: #ffffff; border-color: #e2e8f0; color: #2d3748; font-family: 'Poppins', sans-serif;" placeholder="Type your message..." disabled aria-label="Message input (demo)">
+        <button class="chat-send" aria-label="Send message (demo)" style="background: #84fab0; color: #2d3748;">↑</button>
       </div>
     </div>
 
@@ -976,13 +1020,13 @@
     </div>
 
     <div class="full-preview" style="margin-top: 48px;">
-      <button class="preview-toggle" onclick="this.nextElementSibling.style.display = this.nextElementSibling.style.display === 'none' ? 'block' : 'none'">Toggle Full Figma Preview</button>
+      <button class="preview-toggle" aria-expanded="false" onclick="var expanded = this.nextElementSibling.style.display !== 'none'; this.nextElementSibling.style.display = expanded ? 'none' : 'block'; this.setAttribute('aria-expanded', !expanded);">Toggle Full Figma Preview</button>
       <div style="display: none;"><img src="images/friendly.png" alt="Friendly theme full preview" loading="lazy"></div>
     </div>
   </section>
 
   <!-- ==================== BOLD ==================== -->
-  <section class="theme-section" id="bold">
+  <section class="theme-section" id="bold" aria-label="Bold Theme">
     <div class="theme-header">
       <h2>⚡ Bold Theme</h2>
       <p>High-contrast black and pink design with sharp angles and uppercase text.</p>
@@ -1001,8 +1045,8 @@
         <div class="chat-bubble assistant" style="background: #000000; color: #fff; font-family: 'Space Grotesk', sans-serif; border: 2px solid #fff; border-radius: 0;">Of course! I'm here to help.</div>
       </div>
       <div class="chat-input-area" style="background: #000000;">
-        <input class="chat-input" style="background: #000000; border-color: #ffffff; color: #fff; font-family: 'Space Grotesk', sans-serif; border-radius: 0; border-width: 2px;" placeholder="Type your message..." disabled>
-        <button class="chat-send" style="background: #ff3366; color: #fff; border-radius: 0;">↑</button>
+        <input class="chat-input" style="background: #000000; border-color: #ffffff; color: #fff; font-family: 'Space Grotesk', sans-serif; border-radius: 0; border-width: 2px;" placeholder="Type your message..." disabled aria-label="Message input (demo)">
+        <button class="chat-send" aria-label="Send message (demo)" style="background: #ff3366; color: #fff; border-radius: 0;">↑</button>
       </div>
     </div>
 
@@ -1080,13 +1124,13 @@
     </div>
 
     <div class="full-preview" style="margin-top: 48px;">
-      <button class="preview-toggle" onclick="this.nextElementSibling.style.display = this.nextElementSibling.style.display === 'none' ? 'block' : 'none'">Toggle Full Figma Preview</button>
+      <button class="preview-toggle" aria-expanded="false" onclick="var expanded = this.nextElementSibling.style.display !== 'none'; this.nextElementSibling.style.display = expanded ? 'none' : 'block'; this.setAttribute('aria-expanded', !expanded);">Toggle Full Figma Preview</button>
       <div style="display: none;"><img src="images/bold.png" alt="Bold theme full preview" loading="lazy"></div>
     </div>
   </section>
 
   <!-- ==================== ELEGANT ==================== -->
-  <section class="theme-section" id="elegant">
+  <section class="theme-section" id="elegant" aria-label="Elegant Theme">
     <div class="theme-header">
       <h2>✨ Elegant Theme</h2>
       <p>Sophisticated serif typography with luxurious gold accents and refined spacing.</p>
@@ -1105,8 +1149,8 @@
         <div class="chat-bubble assistant" style="background: #faf8f6; color: #2c2c2c; font-family: 'Didot', 'Georgia', serif; border: 1px solid #e8e4e0; border-radius: 18px 18px 18px 4px;">Of course! I'm here to help. What would you like to know?</div>
       </div>
       <div class="chat-input-area" style="background: #ffffff;">
-        <input class="chat-input" style="background: #faf8f6; border-color: #e8e4e0; color: #2c2c2c; font-family: 'Didot', 'Georgia', serif; border-radius: 24px;" placeholder="Type your message..." disabled>
-        <button class="chat-send" style="background: linear-gradient(135deg, #c9a86c, #a08050); color: #fff; border-radius: 14px;">↑</button>
+        <input class="chat-input" style="background: #faf8f6; border-color: #e8e4e0; color: #2c2c2c; font-family: 'Didot', 'Georgia', serif; border-radius: 24px;" placeholder="Type your message..." disabled aria-label="Message input (demo)">
+        <button class="chat-send" aria-label="Send message (demo)" style="background: linear-gradient(135deg, #c9a86c, #a08050); color: #fff; border-radius: 14px;">↑</button>
       </div>
     </div>
 
@@ -1197,10 +1241,12 @@
     </div>
 
     <div class="full-preview" style="margin-top: 48px;">
-      <button class="preview-toggle" onclick="this.nextElementSibling.style.display = this.nextElementSibling.style.display === 'none' ? 'block' : 'none'">Toggle Full Figma Preview</button>
+      <button class="preview-toggle" aria-expanded="false" onclick="var expanded = this.nextElementSibling.style.display !== 'none'; this.nextElementSibling.style.display = expanded ? 'none' : 'block'; this.setAttribute('aria-expanded', !expanded);">Toggle Full Figma Preview</button>
       <div style="display: none;"><img src="images/elegant.png" alt="Elegant theme full preview" loading="lazy"></div>
     </div>
   </section>
+
+  </main>
 
   <footer>
     <p>Chat Themes Design System &mdash; Complete design tokens and component library for chat interfaces</p>
@@ -1222,7 +1268,7 @@
       zen: {
         '--page-bg': '#e8ede2',
         '--page-text': '#3a5a3a',
-        '--page-muted': '#5a6a5a',
+        '--page-muted': '#4a5a4a',
         '--card-bg': '#d4dcc8',
         '--card-border': '#c0cabc',
         '--accent': '#5a7a5a',
@@ -1308,8 +1354,12 @@
     buttons.forEach(btn => {
       btn.addEventListener('click', () => {
         const theme = btn.dataset.theme;
-        buttons.forEach(b => b.classList.remove('active'));
+        buttons.forEach(b => {
+          b.classList.remove('active');
+          b.removeAttribute('aria-current');
+        });
         btn.classList.add('active');
+        btn.setAttribute('aria-current', 'true');
         sections.forEach(s => s.classList.remove('active'));
         document.getElementById(theme).classList.add('active');
         applyThemeColors(theme);
